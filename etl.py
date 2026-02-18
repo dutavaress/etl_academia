@@ -1,7 +1,7 @@
 # %%
 import pandas as pd
-import numpy as np
 import json
+import sqlite3
 
 with open('alunos.json', 'r') as f:
     dados_alunos = json.load(f)
@@ -26,7 +26,6 @@ df_alunos['data_cadastro'] = pd.to_datetime(df_alunos['data_cadastro'], errors='
 df_alunos['mensalidade'] = df_alunos['mensalidade'].str.replace('$', '').str.replace(',', '.').astype(float)
 df_alunos['cpf'] = df_alunos['cpf'].str.replace('-', '')
 df_alunos['status'] = df_alunos['status'].str.replace('ativo', 'Ativo')
-df_alunos['data_cadastro'] = df_alunos['data_cadastro'].dt.strftime('%Y-%m-%d')
 
 #Colunas data, status e cpf tratadas e padronizadas.
 
@@ -82,4 +81,37 @@ if len(fantasmas) > 0:
     print("Checkins incorretos removidos")
 else:
     print("Não há check-ins de alunos inexistentes.")
+
+
+
+# %%
+
+#Criando conexão com um arquivo de banco de dados
+conn = sqlite3.connect('fluxbody.db')
+
+#Salvando os df's como tabelas SQL
+df_alunos.to_sql('alunos', conn, if_exists='replace', index=False)
+df_checkins.to_sql('checkins', conn, if_exists='replace', index=False)
+
+
+
+#%% 
+#Testando consulta para verificar se a consulta SQL direto no python funcionou.
+query = """
+SELECT 
+    a.nome,
+    COUNT(c.id_aluno) as total_checkins
+FROM alunos a
+LEFT JOIN checkins c ON a.id = c.id_aluno
+GROUP BY a.nome
+ORDER BY total_checkins DESC
+LIMIT 5
+"""
+
+df_top_alunos = pd.read_sql(query, conn)
+print("\nTop 5 alunos mais frequentes:")
+print(df_top_alunos)
+
+conn.close()
+
 # %%
