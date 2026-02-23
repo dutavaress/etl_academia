@@ -96,22 +96,27 @@ df_checkins.to_sql('checkins', conn, if_exists='replace', index=False)
 
 
 #%% 
-#Testando consulta para verificar se a consulta SQL direto no python funcionou.
+#Tabela para verificar alunos mais frequentes
 query = """
 SELECT 
     a.nome,
-    COUNT(c.id_aluno) as total_checkins
+    a.status,
+    c.data_hora as data_checkin,
+    c.unidade as unidade
 FROM alunos a
 LEFT JOIN checkins c ON a.id = c.id_aluno
-GROUP BY a.nome
-ORDER BY total_checkins DESC
-LIMIT 5
 """
 
-df_top_alunos = pd.read_sql(query, conn)
-print("\nTop 5 alunos mais frequentes:")
-print(df_top_alunos)
+df_checkins_alunos = pd.read_sql(query, conn)
+print("\nTabela de alunos + checkins")
+print(df_checkins_alunos)
 
 conn.close()
 
 # %%
+#Exportando as bases tratadas para CSV
+df_alunos.to_csv('alunos_limpo.csv', index=False, encoding='utf-8')
+df_checkins.to_csv('checkins_limpo.csv', index=False, encoding='utf-8')
+df_checkins_alunos.to_csv('checkins_alunos_consolidado.csv', index=False, encoding='utf-8')
+
+print("Bases exportadas")

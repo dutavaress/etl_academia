@@ -1,0 +1,55 @@
+1. Mapa de Calor (Heatmap) de Horários de Pico
+
+    O que é: Uma matriz onde as linhas são os "Dias da Semana" (Segunda, Terça...) e as colunas são as "Horas do Dia" (06h, 07h, 18h...). Quanto mais check-ins, mais escura a cor.
+
+    Como fazer: No Power BI, você extrai o "Dia da Semana" e a "Hora" da coluna data_hora da tabela de check-ins.
+
+    Por que impressiona: Responde à pergunta operacional clássica: "Quando precisamos de mais professores e recepcionistas nas unidades?"
+
+2. Análise Financeira: MRR vs. Dinheiro "Na Mesa"
+
+    O que é: Um gráfico de barras empilhadas ou cartões (KPIs) mostrando a Soma das Mensalidades dividida por Status.
+
+    Como fazer: Em vez de usar apenas a "Média" (que você já vai fazer), crie medidas DAX para somar a coluna mensalidade.
+
+        Receita Garantida: Soma das mensalidades onde status = 'Ativo'.
+
+        Risco/Atraso: Soma onde status = 'Inadimplente' (Dinheiro que a academia deveria estar recebendo e precisa cobrar).
+
+        Receita Perdida: Soma onde status = 'Cancelado'.
+
+    Por que impressiona: Traz visão de negócios. Mostra o impacto financeiro exato da inadimplência.
+
+3. Alunos em "Risco de Churn" (Fuga)
+
+    O que é: Uma tabela ou um cartão (KPI) mostrando a quantidade de alunos que estão com status Ativo, mas que não fazem check-in há mais de 30 dias.
+
+    Como fazer: Com DAX, você calcula a data do último check-in de cada aluno. Se a diferença entre hoje (ou a data máxima do seu dataset) e o último check-in for maior que 30 dias, ele é um "Aluno em Risco".
+
+    Por que impressiona: É a métrica mais valiosa para academias. Permite que a equipe de retenção ligue para o aluno antes que ele decida cancelar.
+
+4. Ticket Médio por Estado (Unidade)
+
+    O que é: Um gráfico de barras relacionando o dinheiro com a localização.
+
+    Como fazer: Já que você vai fazer um join (ou relacionamento) entre as tabelas de Alunos e Check-ins, você pode calcular a Média da Mensalidade agrupada pela coluna unidade (estado).
+
+    Por que impressiona: Responde à pergunta: "Quais estados pagam as mensalidades mais caras?" (Talvez um estado tenha mais planos "Anuais" e outro mais "Mensais").
+
+5. Curva de Crescimento de Cadastros
+
+    O que é: Um gráfico de linha ou área mostrando o volume acumulado de novos alunos ao longo do tempo.
+
+    Como fazer: Use a coluna data_cadastro no Eixo X e uma contagem de IDs de alunos.
+
+    Por que impressiona: Mostra a evolução histórica da empresa. Você pode até adicionar uma linha de tendência para ver se a academia está acelerando ou desacelerando as vendas.
+
+Resumo de como organizar suas páginas no Power BI:
+
+Uma ótima prática de UX (Experiência do Usuário) para BI é não jogar todos os gráficos em uma tela só. Sugiro dividir seu projeto em duas abas:
+
+    Página 1: Visão Executiva & Financeira (Média de mensalidade, Taxa de inadimplência, Receita perdida vs garantida, Curva de cadastros).
+
+    Página 2: Visão Operacional & Retenção (Estados mais frequentados, Dias/Meses com mais check-ins, Heatmap de horários, Top 3 alunos, Alunos em Risco).
+
+O que acha dessa estrutura? Se precisar de ajuda com alguma fórmula DAX para criar esses KPIs (como o cálculo do último check-in), é só falar!
