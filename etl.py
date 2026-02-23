@@ -73,7 +73,7 @@ ids_checkins = set(df_checkins['id_aluno'].unique())
 fantasmas = ids_checkins - ids_alunos
 
 if len(fantasmas) > 0:
-    print(f"Há {len(fantasmas)} check-ins de alunos inexistentes!")
+    print(f"Há {len(fantasmas)} check-ins de alunos inexistentes")
     print(f"IDs inconsistentes: {list(fantasmas)[:5]}...")
     
     # Decisão de Engenharia: Vamos remover esses check-ins sujos

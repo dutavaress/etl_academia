@@ -6,7 +6,7 @@
 
     Por que impressiona: Responde à pergunta operacional clássica: "Quando precisamos de mais professores e recepcionistas nas unidades?"
 
-2. Análise Financeira: MRR vs. Dinheiro "Na Mesa"
+2. Análise Financeira: MRR vs. Dinheiro "Na Mesa" OK
 
     O que é: Um gráfico de barras empilhadas ou cartões (KPIs) mostrando a Soma das Mensalidades dividida por Status.
 
