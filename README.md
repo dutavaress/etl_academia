@@ -17,7 +17,6 @@ A FluxBody Fitness enfrentava desafios comuns no setor de assinaturas, além dos
 * **Visualização e Modelagem:** Power BI, DAX e Power Query
 * **Engenharia de Dados:** Geração de dados (Faker/Mock), ETL (Extração, Tratamento e Load), Modelagem Dimensional (Star Schema)
 
----
 
 ## ⚙️ Arquitetura e Pipeline de Dados
 O projeto foi dividido em 4 etapas principais:
@@ -45,7 +44,6 @@ No Power BI, os dados foram conectados e estruturados:
 * Relacionamentos `1:*` (Um para Muitos) entre Cadastro e Check-ins.
 * Criação de tabela dimensão geográfica (`d_Estados`) para precisão absoluta no visual de Mapas.
 
----
 
 ## 💡 Insights Extraídos e Ações de Negócio
 O painel foi dividido em duas visões estratégicas para atender a diferentes áreas da empresa:
