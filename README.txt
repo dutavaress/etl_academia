@@ -1,0 +1,96 @@
+🏋️ SmartFit Analytics (FluxBody Fitness) - End-to-End BI & Data Pipeline
+📖 Visão Geral do Projeto
+
+Este projeto é uma simulação End-to-End (Ponta a Ponta) do ambiente de dados de uma rede de academias (FluxBody Fitness). O objetivo foi atuar como um Analista de BI Full-Stack / Analytics Engineer, resolvendo problemas desde a extração de dados sujos de uma API simulada até a entrega de painéis executivos com insights acionáveis para a diretoria.
+🎯 O Problema de Negócio
+
+A FluxBody Fitness enfrentava desafios comuns no setor de assinaturas (SaaS/Academias):
+
+    Falta de visibilidade sobre o MRR (Receita Recorrente Mensal) e o impacto da inadimplência.
+
+    Dificuldade em prever e evitar o Churn (Cancelamento).
+
+    Dados descentralizados e "sujos" vindos de sistemas legados de catraca e pagamentos.
+
+    Necessidade de otimizar o staffing (escala de funcionários) baseado no fluxo real de alunos nas filiais.
+
+🛠️ Stack Tecnológica Utilizada
+
+    Linguagem: Python (Pandas, JSON)
+
+    Banco de Dados: SQLite e SQL (Data Warehouse local)
+
+    Visualização e Modelagem: Power BI, DAX e Power Query
+
+    Engenharia de Dados: Geração de dados (Faker/Mock), ETL (Extração, Tratamento e Carga), Modelagem Dimensional (Star Schema).
+
+⚙️ Arquitetura e Pipeline de Dados
+
+O projeto foi dividido em 4 etapas principais:
+1. Geração de Dados (Simulando o Caos)
+
+Para simular um ambiente real e desafiador, criei scripts para gerar bases em formato JSON (alunos.json e checkins.json) repletos de inconsistências propositais:
+
+    Datas em múltiplos formatos (ex: MM/DD/YYYY vs YYYY-MM-DD).
+
+    Valores financeiros tipados como String e contendo símbolos ($186.81).
+
+    Caracteres especiais em documentos (CPFs com pontuação).
+
+    Status inconsistentes (Ativo vs ativo).
+
+2. Processamento e Limpeza (ETL com Python)
+
+Utilizando Pandas, desenvolvi um script de limpeza robusto para:
+
+    Padronizar as tipagens de datas (pd.to_datetime).
+
+    Limpar strings financeiras e converter para Float.
+
+    Padronizar categorias textuais e remover caracteres especiais.
+
+    Integridade Referencial: Implementei um "Sanity Check" via código para identificar e remover "Alunos Fantasmas" (IDs presentes na catraca, mas inexistentes no banco de cadastros).
+
+3. Armazenamento (Data Warehouse com SQLite)
+
+Após a limpeza, os DataFrames foram carregados via engine do sqlite3 para um banco de dados relacional (fluxbody.db), facilitando consultas SQL analíticas e simulando o ambiente de um DW corporativo.
+4. Modelagem e BI (Power BI & DAX)
+
+No Power BI, os dados foram conectados e estruturados:
+
+    Criação de uma d_Calendario dinâmica via DAX, respeitando os limites temporais das tabelas Fato.
+
+    Relacionamentos 1:* (Um para Muitos) entre Cadastro e Check-ins.
+
+    Criação de tabela dimensão geográfica (d_Estados) para precisão absoluta no visual de Mapas.
+
+💡 Insights Extraídos e Ações de Negócio
+
+O painel foi dividido em duas visões estratégicas para atender a diferentes áreas da empresa:
+💰 Aba 1: Relatório Financeiro (Foco da Diretoria)
+
+    A Hemorragia da Inadimplência: O painel revelou uma taxa de inadimplência de 29%, representando $1.44k em risco.
+
+        Ação Proposta: Congelar campanhas de atração temporariamente e focar o time de atendimento em renegociação e recuperação de crédito, o que trará fluxo de caixa imediato.
+
+    Receita Garantida vs. Churn: A receita perdida (Cancelados) representa mais da metade do MRR atual. O "balde está furado".
+
+        Ação Proposta: Reestruturação da área de Customer Success da academia para focar no engajamento dos alunos nos primeiros 3 meses.
+
+    Padrão de Matrículas: Segundas e Quartas-feiras são os dias de maior pico de conversão.
+
+        Ação Proposta: Direcionar o orçamento de mídia paga (Ads) e colocar os melhores consultores de vendas nas unidades nestes dias específicos.
+
+⚙️ Aba 2: Relatório Operacional (Foco dos Gerentes de Unidade)
+
+    Painel de Ação Anti-Churn (Dias sem treinar): Uma tabela dinâmica isola alunos Ativos que não frequentam a academia há mais de 30 dias.
+
+        Ação Proposta: Ferramenta de uso diário para a recepção realizar ligações preventivas, oferecendo avaliações físicas para resgatar o aluno antes que ele cancele o plano.
+
+    Dimensionamento de Rede (Top Unidades): O Mapa de Formas revela alta concentração de acessos em estados como TX e CA.
+
+        Ação Proposta: Priorizar manutenções preventivas de maquinário nas unidades dessas regiões devido ao alto desgaste, enquanto o Marketing foca nas regiões de baixo tráfego.
+
+    Embaixadores da Marca (Top 5 Engajados): Identificação dos heavy-users.
+
+        Ação Proposta: Oferecer a estes 5 alunos o programa "Indique um Amigo" com isenção de mensalidade, usando-os como promotores orgânicos da marca.
